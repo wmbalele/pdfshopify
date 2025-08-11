@@ -16597,22 +16597,8 @@ initCom(PDFViewerApplication);
 {
   const HOSTED_VIEWER_ORIGINS = new Set(["null", "http://mozilla.github.io", "https://mozilla.github.io"]);
   var validateFileURL = function (file) {
-    if (!file) {
-      return;
-    }
-    const viewerOrigin = URL.parse(window.location)?.origin || "null";
-    if (HOSTED_VIEWER_ORIGINS.has(viewerOrigin)) {
-      return;
-    }
-    const fileOrigin = URL.parse(file, window.location)?.origin;
-    if (fileOrigin === viewerOrigin) {
-      return;
-    }
-    const ex = new Error("file origin does not match viewer's");
-    PDFViewerApplication._documentError("pdfjs-loading-error", {
-      message: ex.message
-    });
-    throw ex;
+    // Validación desactivada para permitir PDFs desde cualquier dominio
+    return;
   };
   var onFileInputChange = function (evt) {
     if (this.pdfViewer?.isInPresentationMode) {
@@ -16628,6 +16614,7 @@ initCom(PDFViewerApplication);
     this._openFileInput?.click();
   };
 }
+
 function onPageRender({
   pageNumber
 }) {
